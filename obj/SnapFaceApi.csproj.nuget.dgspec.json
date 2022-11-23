@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\aguesmia\\Documents\\Projets\\Api\\SnapFaceApi\\SnapFaceApi.csproj": {}
+    "C:\\Users\\aguesmia\\Desktop\\Projets\\Api\\SnapFaceApi\\SnapFaceApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\aguesmia\\Documents\\Projets\\Api\\SnapFaceApi\\SnapFaceApi.csproj": {
+    "C:\\Users\\aguesmia\\Desktop\\Projets\\Api\\SnapFaceApi\\SnapFaceApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aguesmia\\Documents\\Projets\\Api\\SnapFaceApi\\SnapFaceApi.csproj",
+        "projectUniqueName": "C:\\Users\\aguesmia\\Desktop\\Projets\\Api\\SnapFaceApi\\SnapFaceApi.csproj",
         "projectName": "SnapFaceApi",
-        "projectPath": "C:\\Users\\aguesmia\\Documents\\Projets\\Api\\SnapFaceApi\\SnapFaceApi.csproj",
+        "projectPath": "C:\\Users\\aguesmia\\Desktop\\Projets\\Api\\SnapFaceApi\\SnapFaceApi.csproj",
         "packagesPath": "C:\\Users\\aguesmia\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\aguesmia\\Documents\\Projets\\Api\\SnapFaceApi\\obj\\",
+        "outputPath": "C:\\Users\\aguesmia\\Desktop\\Projets\\Api\\SnapFaceApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\aguesmia\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -55,6 +55,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[6.0.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.18.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SnapFaceApi.Models;
+using SnapFaceApi.Services;
 
 namespace SnapFaceApi.Controllers
 {
@@ -9,24 +10,29 @@ namespace SnapFaceApi.Controllers
   public class FaceSnapController : ControllerBase
   {
     private readonly FaceSnapContext _context;
+    private readonly FaceSnapsService _facesnapsService;
 
-    public FaceSnapController(FaceSnapContext context)
+    public FaceSnapController(FaceSnapContext context, FaceSnapsService faceSnapsService)
     {
       _context = context;
+      _facesnapsService = faceSnapsService;
     }
 
     // GET: api/FaceSnap
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<FaceSnapDTO>>> GetFaceSnapItems()
+    public async Task<List<FaceSnapDTO>> GetFaceSnapItems()
     {
-      return await _context.FaceSnapItems.Select(x => ItemToDTO(x)).ToListAsync();
+      var faceSnapItems = await _facesnapsService.GetAsync();
+      return faceSnapItems.Select(x => ItemToDTO(x)).ToList();
     }
 
-    // GET: api/FaceSnap/5
+
+
+    // GET: api/FaceSnap/<id>
     [HttpGet("{id}")]
     public async Task<ActionResult<FaceSnapDTO>> GetFaceSnapItem(string id)
     {
-      var faceSnapItem = await _context.FaceSnapItems.FindAsync(id);
+      var faceSnapItem = await _facesnapsService.GetAsync(id);
 
       if (faceSnapItem == null)
       {
@@ -36,17 +42,13 @@ namespace SnapFaceApi.Controllers
       return ItemToDTO(faceSnapItem);
     }
 
-    // PUT: api/FaceSnap/5
+    // PUT: api/FaceSnap/<id>
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
     public async Task<IActionResult> PutFaceSnapItem(string id, FaceSnapDTO faceSnapDTO)
     {
-      if (id != faceSnapDTO.Id)
-      {
-        return BadRequest();
-      }
 
-      var faceSnapItem = await _context.FaceSnapItems.FindAsync(id);
+      var faceSnapItem = await _facesnapsService.GetAsync(id);
       if (faceSnapItem == null)
       {
         return NotFound();
@@ -60,7 +62,7 @@ namespace SnapFaceApi.Controllers
 
       try
       {
-        await _context.SaveChangesAsync();
+        await _facesnapsService.UpdateAsync(id, faceSnapItem);
       }
       catch (DbUpdateConcurrencyException) when (!FaceSnapItemExists(id))
       {
@@ -77,10 +79,9 @@ namespace SnapFaceApi.Controllers
     {
 
       var faceSnapItem = DTOtoItem(faceSnapDTO);
-      _context.FaceSnapItems.Add(faceSnapItem);
       try
       {
-        await _context.SaveChangesAsync();
+        await _facesnapsService.CreateAsync(faceSnapItem);
       }
       catch (DbUpdateException)
       {
@@ -96,19 +97,16 @@ namespace SnapFaceApi.Controllers
       return CreatedAtAction(nameof(GetFaceSnapItem), new { id = faceSnapItem.Id }, faceSnapItem);
     }
 
-    // DELETE: api/FaceSnap/5
+    // DELETE: api/FaceSnap/<id>
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteFaceSnapItem(string id)
     {
-      var faceSnapItem = await _context.FaceSnapItems.FindAsync(id);
+      var faceSnapItem = await _facesnapsService.GetAsync(id);
       if (faceSnapItem == null)
       {
         return NotFound();
       }
-
-      _context.FaceSnapItems.Remove(faceSnapItem);
-      await _context.SaveChangesAsync();
-
+      await _facesnapsService.RemoveAsync(id);
       return NoContent();
     }
 
@@ -121,7 +119,6 @@ namespace SnapFaceApi.Controllers
 
       new FaceSnapDTO
       {
-        Id = faceSnapItem.Id,
         Title = faceSnapItem.Title,
         Description = faceSnapItem.Description,
         CreatedDate = faceSnapItem.CreatedDate,
@@ -134,7 +131,6 @@ namespace SnapFaceApi.Controllers
 
       new FaceSnapItem
       {
-        Id = faceSnapDTO.Id,
         Title = faceSnapDTO.Title,
         Description = faceSnapDTO.Description,
         CreatedDate = faceSnapDTO.CreatedDate,

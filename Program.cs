@@ -1,15 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using SnapFaceApi.Models;
+using SnapFaceApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add services to the container.
+builder.Services.Configure<FacesnapStoreDatabaseSettings>(
+  builder.Configuration.GetSection("FacesnapStoreDatabase"));
+builder.Services.AddSingleton<FaceSnapsService>();
+builder.Services.AddControllers()
+  .AddJsonOptions(
+    options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<FaceSnapContext>(opt => opt.UseInMemoryDatabase("FaceSnapList"));
+builder.Services.AddDbContext<FaceSnapContext>();
 
 var app = builder.Build();
 
