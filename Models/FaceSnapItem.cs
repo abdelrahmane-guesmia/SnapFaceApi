@@ -20,6 +20,7 @@ public class FaceSnapItem
   public string? ImageUrl { get; set; }
   [BsonElement("location")]
   public string? Location { get; set; }
+  [BsonElement("secret")]
   public string? Secret { get; set; }
 }
 

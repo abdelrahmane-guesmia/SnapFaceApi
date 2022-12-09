@@ -6,22 +6,21 @@ namespace SnapFaceApi.Models;
 public class FaceSnapDTO
 {
   [BsonElement("title")]
-  [JsonPropertyName("Title")]
+  [JsonPropertyName("title")]
   public string? Title { get; set; }
   [BsonElement("description")]
-  [JsonPropertyName("Description")]
+  [JsonPropertyName("description")]
   public string? Description { get; set; }
   [BsonElement("created_date")]
-  [JsonPropertyName("CreatedDate")]
+  [JsonPropertyName("createdDate")]
   public DateTime CreatedDate { get; set; }
   [BsonElement("snaps")]
-  [JsonPropertyName("Snaps")]
+  [JsonPropertyName("snaps")]
   public int Snaps { get; set; }
   [BsonElement("image_url")]
-  [JsonPropertyName("ImageUrl")]
+  [JsonPropertyName("imageUrl")]
   public string? ImageUrl { get; set; }
   [BsonElement("location")]
-  [JsonPropertyName("Location")]
+  [JsonPropertyName("location")]
   public string? Location { get; set; }
-
 }
